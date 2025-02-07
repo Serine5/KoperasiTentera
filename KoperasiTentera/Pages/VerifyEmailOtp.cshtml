@@ -1,0 +1,12 @@
+﻿@page "{phoneNumber}"
+@model KoperasiTentera.Pages.VerifyEmailOtpModel
+@{
+    ViewData["Title"] = "Verify Email OTP";
+}
+
+<h2>Enter 4-digit OTP sent to @Model.Email</h2>
+
+<form method="post">
+    <input type="text" name="otp" required maxlength="4" />
+    <button type="submit">Verify</button>
+</form>

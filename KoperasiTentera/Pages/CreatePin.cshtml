@@ -1,0 +1,9 @@
+﻿@page "{phoneNumber}"
+@model KoperasiTentera.Pages.CreatePinModel
+@{
+    <form method="post">
+        <label for="pin">Enter 6-digit PIN: @Model.Pin</label>
+        <input type="password" id="pin" name="Pin" required>
+        <button type="submit">Create PIN</button>
+    </form>
+}

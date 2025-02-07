@@ -11,13 +11,15 @@ namespace ServiceLayer.Sevices
         {
             _userRepository = userRepository;
         }
-        public User AddUser(User newUser)
+
+        public async Task<User> AddUserAsync(User newUser)
         {
-            return _userRepository.Add(newUser);
+            return await _userRepository.AddAsync(newUser);
         }
-        public IList<User> GetAllUsers()
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return _userRepository.GetAll().ToList();
+            return await _userRepository.GetAllAsync();
         }
     }
 }

@@ -1,0 +1,13 @@
+﻿@page "{phoneNumber}"
+@model KoperasiTentera.Pages.PrivacyPolicyModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+@{
+    <form method="post">
+        <p>Please agree to our privacy policy. @Model.Policy</p>
+        <input type="checkbox" id="policy" name="PolicyAgreement" required>
+        <label for="policy">I agree</label>
+        <button type="submit">Next</button>
+    </form>
+}

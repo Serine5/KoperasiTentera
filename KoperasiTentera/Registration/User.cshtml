@@ -1,0 +1,51 @@
+﻿@model KoperasiTenteraDAL.Entities.User
+
+@{
+    ViewData["Title"] = "CreateAccount";
+}
+
+<h1>Create Account</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ICNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ICNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Email)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                </td>
+            </tr>
+    </tbody>
+</table>

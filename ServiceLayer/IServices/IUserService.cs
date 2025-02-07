@@ -4,8 +4,8 @@ namespace ServiceLayer.IServices
 {
     public interface IUserService
     {
-        public User AddUser(User newUser);
+        public Task<User> AddUserAsync(User newUser);
 
-        public IList<User> GetAllUsers();
+        public Task<IEnumerable<User>> GetAllUsersAsync();
     }
 }

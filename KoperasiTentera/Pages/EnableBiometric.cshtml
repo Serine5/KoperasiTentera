@@ -1,0 +1,12 @@
+﻿@page "{phoneNumber}"
+@model KoperasiTentera.Pages.EnableBiometric
+@{
+    ViewData["Title"] = "EnableBiometric";
+}
+@{
+    <form method="post">
+        <label>Enable Biometric Login?</label>
+        <button type="submit" name="Enable" value="true">Enable</button>
+        <button type="submit" name="Enable" value="false">Maybe Later</button>
+    </form>
+}

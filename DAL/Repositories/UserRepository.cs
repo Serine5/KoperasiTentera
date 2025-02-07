@@ -1,64 +1,72 @@
 ﻿using KoperasiTenteraDAL.Context;
 using KoperasiTenteraDAL.Entities;
+using KoperasiTenteraDAL.Repositories;
+using Microsoft.EntityFrameworkCore;
 
-namespace KoperasiTenteraDAL.Repositories
+public class UserRepository : IRepository<User, int>, IAsyncDisposable
 {
-    public class UserRepository : IRepository<User, int>, IDisposable
+    private readonly UserContext _context;
+
+    public UserRepository(UserContext context)
     {
-        private readonly UserContext _context;
-        public UserRepository(UserContext context)
-        {
-            _context = context;
-        }
-        public User Add(User entity)
-        {
-            _context.Users.Add(entity);
-            return entity;
-        }
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+    }
 
-        public void Delete(int entityId)
+    public async Task<User> AddAsync(User entity)
+    {
+        if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+        await _context.Users.AddAsync(entity);
+        await _context.SaveChangesAsync();
+        return entity;
+    }
+
+    public async Task DeleteAsync(int entityId)
+    {
+        var user = await _context.Users.FindAsync(entityId);
+        if (user != null)
         {
-            var user = _context.Users.Find(entityId);
-            if (user != null) 
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task<User> GetAsync(int entityId)
+    {
+        return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == entityId);
+    }
+
+    public async Task<IEnumerable<User>> GetAllAsync()
+    {
+        return await _context.Users.AsNoTracking().ToListAsync();
+    }
+
+    public async Task<User> UpdateAsync(User entity)
+    {
+        if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+        _context.Users.Update(entity);
+        await _context.SaveChangesAsync();
+        return entity;
+    }
+
+    private bool _disposed;
+
+    protected virtual async ValueTask DisposeAsyncCore()
+    {
+        if (!_disposed)
+        {
+            if (_context != null)
             {
-                _context.Remove(user);
-                _context.SaveChanges();
+                await _context.DisposeAsync();
             }
+            _disposed = true;
         }
+    }
 
-        public User Get(int entityId)
-        {
-            return _context.Users.FirstOrDefault(u => u.Id == entityId);
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users.ToList();
-        }
-
-        public User Update(User entity)
-        {
-            _context.Users.Update(entity);
-            return entity;
-        }
-
-        private bool disposed;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore();
+        GC.SuppressFinalize(this);
     }
 }
